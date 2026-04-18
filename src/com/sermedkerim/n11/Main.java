@@ -23,16 +23,28 @@ public class Main {
 
         while (isOpen) {
             System.out.println("Hangi ödeme yöntemini kullanacaksınız? (Kredi Kartı için 0 Paypal için 1 giriniz) ");
-            int index = scanner.nextInt();
+            int index = 0;
+            try {
+                index = scanner.nextInt();
+            } catch (Exception e){
+                System.out.println("Hatalı giriş yaptınız...");
+                break;
+            }
 
             System.out.println("Ödenecek miktarı giriniz: ");
-            double cost = scanner.nextDouble();
+            double cost = 0;
+            try {
+                cost = scanner.nextDouble();
+            } catch (Exception e) {
+                System.out.println("Hatalı giriş yaptınız...");
+                break;
+            }
 
             PaymentManager paymentManager = new PaymentManager(payments.get(index));
             paymentManager.pay(cost);
 
             System.out.println("Tekrar denemek istiyor musunuz?(Evet/Hayır) ");
-            String answer = scanner.nextLine();
+            String answer = scanner.next();
 
             if (answer.compareTo("Evet") != 0){
                 isOpen = false;
