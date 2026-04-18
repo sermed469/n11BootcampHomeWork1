@@ -77,14 +77,6 @@ Tekrar denemek istiyor musunuz?(Evet/Hayır)
 Hayır
 ```
 
-## Possible Improvements
-
-- add more payment methods
-- validate negative or zero payment amounts
-- improve input handling to recover from invalid entries without exiting
-- add unit tests
-- use `List<IPayment>` instead of `ArrayList<IPayment>` in declarations
-
 ## Author
 
 Sermed Kerim
