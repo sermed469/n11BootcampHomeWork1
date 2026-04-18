@@ -18,12 +18,26 @@ public class Main {
         payments.add(creditCardPayment);
         payments.add(payPalPayment);
 
-        Scanner scanner = new Scanner();
+        Scanner scanner = new Scanner(System.in);;
+        boolean isOpen = true;
 
-        int index = 0;
-        PaymentManager paymentManager = new PaymentManager(payments.get(index));
+        while (isOpen) {
+            System.out.println("Hangi ödeme yöntemini kullanacaksınız? (Kredi Kartı için 0 Paypal için 1 giriniz) ");
+            int index = scanner.nextInt();
 
-        double cost = 1000.0;
-        paymentManager.pay(cost);
+            System.out.println("Ödenecek miktarı giriniz: ");
+            double cost = scanner.nextDouble();
+
+            PaymentManager paymentManager = new PaymentManager(payments.get(index));
+            paymentManager.pay(cost);
+
+            System.out.println("Tekrar denemek istiyor musunuz?(Evet/Hayır) ");
+            String answer = scanner.nextLine();
+
+            if (answer.compareTo("Evet") != 0){
+                isOpen = false;
+                scanner.close();
+            }
+        }
     }
 }
