@@ -29,6 +29,11 @@ public class Main {
             } catch (Exception e){
                 System.out.println("Hatalı giriş yaptınız...");
                 break;
+            } finally {
+                if (index >= payments.size()) {
+                    System.out.println("Hatalı giriş yaptınız...");
+                    break;
+                }
             }
 
             System.out.println("Ödenecek miktarı giriniz: ");
@@ -46,7 +51,7 @@ public class Main {
             System.out.println("Tekrar denemek istiyor musunuz?(Evet/Hayır) ");
             String answer = scanner.next();
 
-            if (answer.compareTo("Evet") != 0){
+            if (answer.compareToIgnoreCase("Evet") != 0){
                 isOpen = false;
                 scanner.close();
             }
