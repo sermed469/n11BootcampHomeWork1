@@ -5,6 +5,6 @@ import com.sermedkerim.n11.interfaces.IPayment;
 public class PayPalPayment implements IPayment {
     @Override
     public void pay(double cost) {
-        System.out.println("Pay with PayPal: " + cost + " TL");
+        System.out.println(cost + " TL PayPal ile ödendi.");
     }
 }
