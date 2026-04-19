@@ -42,6 +42,7 @@ public class Main {
 
             if (answer.compareToIgnoreCase("Evet") != 0){
                 isOpen = false;
+                System.out.println("İşlem Sona Erdi.");
                 scanner.close();
             }
         }
