@@ -1,28 +1,34 @@
 # n11HomeWork1
 
-Simple Java console application that demonstrates a payment flow using different payment methods through a common interface.
+Java console application for a simple payment flow using a shared interface, a manager class, and a factory-based payment selection mechanism.
 
 ## Overview
 
-The project lets the user:
+The application:
 
-- choose a payment method
-- enter an amount
-- process the payment through the selected implementation
-- repeat the flow until the user exits
+- asks the user to enter a payment type
+- creates the matching payment implementation through `PaymentFactory`
+- asks for the payment amount
+- processes the payment through `PaymentManager`
+- repeats until the user exits
 
-The code uses a small strategy-style design:
+This project demonstrates basic object-oriented design with interfaces, concrete implementations, and runtime object creation.
 
-- `IPayment` defines the payment contract
-- `CreditCardPayment` and `PayPalPayment` implement that contract
-- `PaymentManager` delegates the payment call to the selected implementation
-- `Main` handles user interaction from the console
+## Architecture
+
+- `IPayment` defines the contract for all payment types.
+- `CreditCardPayment` and `PayPalPayment` implement the payment behavior.
+- `PaymentFactory` creates the requested payment class dynamically.
+- `PaymentManager` delegates the payment call to the selected implementation.
+- `Main` handles the console interaction loop.
 
 ## Project Structure
 
 ```text
 src/com/sermedkerim/n11/
 ├── Main.java
+├── factory/
+│   └── PaymentFactory.java
 ├── interfaces/
 │   └── IPayment.java
 ├── manager/
@@ -32,26 +38,36 @@ src/com/sermedkerim/n11/
     └── PayPalPayment.java
 ```
 
-## Technologies
+## Supported Payment Types
 
-- Java
-- Object-oriented programming
-- Interface-based design
+The program expects one of these class names as input:
+
+- `CreditCardPayment`
+- `PayPalPayment`
+
+If a different value is entered, the application prints `Ödeme Yöntemi Bulunamadı` and stops.
 
 ## How It Works
 
-1. The application starts in `Main`.
-2. Available payment methods are added to a list.
-3. The user selects a payment type:
-   - `0` for credit card
-   - `1` for PayPal
-4. The user enters the payment amount.
-5. `PaymentManager` calls the selected payment implementation.
-6. The user can continue by entering `Evet` or exit with any other answer.
+1. `Main` asks for a payment type.
+2. `PaymentFactory` tries to create a class under `com.sermedkerim.n11.paymenttype`.
+3. If the class is found, `PaymentManager` is created with that payment implementation.
+4. The user enters the amount.
+5. The selected payment type prints the payment result.
+6. The user enters `Evet` to continue or any other value to exit.
 
-The current version also includes basic validation for invalid menu input and accepts `Evet` without case sensitivity.
+## Technologies
 
-## Run the Project
+- Java
+- OOP
+- Interface-based design
+- Factory pattern
+
+## Prerequisites
+
+- JDK 8 or later
+
+## Compile and Run
 
 Compile:
 
@@ -65,17 +81,23 @@ Run:
 java -cp out com.sermedkerim.n11.Main
 ```
 
-## Example Output
+## Example
 
 ```text
-Hangi ödeme yöntemini kullanacaksınız? (Kredi Kartı için 0 Paypal için 1 giriniz)
-0
+Ödeme yöntemini giriniz(CreditCardPayment/PayPalPayment):
+CreditCardPayment
 Ödenecek miktarı giriniz:
 250
 250.0 TL Kredi Kartı ile ödendi
 Tekrar denemek istiyor musunuz?(Evet/Hayır)
 Hayır
 ```
+
+## Notes
+
+- Payment type input is case-sensitive because the factory loads the class by exact name.
+- Amount input must be numeric. Invalid numeric input prints `Hatalı giriş yaptınız...` and ends the program.
+- The loop continues only when the user enters `Evet` ignoring case.
 
 ## Author
 

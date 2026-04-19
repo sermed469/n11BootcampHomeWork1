@@ -1,39 +1,29 @@
 package com.sermedkerim.n11;
 
+import com.sermedkerim.n11.factory.PaymentFactory;
 import com.sermedkerim.n11.interfaces.IPayment;
 import com.sermedkerim.n11.manager.PaymentManager;
-import com.sermedkerim.n11.paymenttype.CreditCardPayment;
-import com.sermedkerim.n11.paymenttype.PayPalPayment;
 
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        ArrayList<IPayment> payments = new ArrayList<>();
 
-        CreditCardPayment creditCardPayment = new CreditCardPayment();
-        PayPalPayment payPalPayment = new PayPalPayment();
-
-        payments.add(creditCardPayment);
-        payments.add(payPalPayment);
-
+        PaymentFactory paymentFactory = new PaymentFactory();
         Scanner scanner = new Scanner(System.in);;
         boolean isOpen = true;
 
         while (isOpen) {
-            System.out.println("Hangi ödeme yöntemini kullanacaksınız? (Kredi Kartı için 0 Paypal için 1 giriniz) ");
-            int index = 0;
-            try {
-                index = scanner.nextInt();
-            } catch (Exception e){
-                System.out.println("Hatalı giriş yaptınız...");
+            System.out.println("Ödeme yöntemini giriniz(CreditCardPayment/PayPalPayment): ");
+            String paymentTypeText = scanner.next();
+
+            IPayment paymentType = paymentFactory.create(paymentTypeText);
+
+            PaymentManager paymentManager = null;
+            if (paymentType != null) {
+                paymentManager = new PaymentManager(paymentType);
+            } else {
                 break;
-            } finally {
-                if (index >= payments.size()) {
-                    System.out.println("Hatalı giriş yaptınız...");
-                    break;
-                }
             }
 
             System.out.println("Ödenecek miktarı giriniz: ");
@@ -44,9 +34,8 @@ public class Main {
                 System.out.println("Hatalı giriş yaptınız...");
                 break;
             }
-
-            PaymentManager paymentManager = new PaymentManager(payments.get(index));
             paymentManager.pay(cost);
+
 
             System.out.println("Tekrar denemek istiyor musunuz?(Evet/Hayır) ");
             String answer = scanner.next();
